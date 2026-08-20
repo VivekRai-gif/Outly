@@ -367,10 +367,4 @@ Feature → Create branch → Implement → Test → Pull Request → Review →
 
 ---
 
-## 📄 License
-
-License to be decided before public release.
-
----
-
 **Outly** — *Reach out. Follow up. Never lose a lead.*

@@ -2,27 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* BACKGROUNDS */
+  --bg: #020202;
+  --bg-secondary: #0E0E0E;
+
+  /* SURFACES */
+  --surface: #1A1B1A;
+  --surface-hover: #262626;
+
+  /* BORDERS */
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  /* TEXT */
+  --text-primary: #F5F5F5;
+  --text-secondary: #A0A0A0;
+  --text-muted: #777777;
+  --text-faint: #555555;
+
+  /* WHITE & BLACK */
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* GLOW */
+  --glow: rgba(255, 255, 255, 0.15);
+}
+
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blue-500 selection:text-white;
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-/* Custom scrollbars for clean SaaS UI */
+/* Glassmorphism utility */
+.glass {
+  background: rgba(10, 10, 10, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Primary Button Treatment: White/Light Gray background -> Dark text */
+.primary-btn {
+  background: #F5F5F5;
+  color: #080808;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.primary-btn:hover {
+  background: #FFFFFF;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Secondary Button Treatment: Almost transparent glass */
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  color: #F5F5F5;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+}
+
+/* Hero Charcoal Ambient Lighting Shape */
+.hero-charcoal-shape {
+  position: absolute;
+  width: 900px;
+  height: 420px;
+  background: #3A3A3A;
+  opacity: 0.35;
+  filter: blur(60px);
+  transform: rotate(-8deg);
+  border-radius: 50%;
+  pointer-events-none: none;
+}
+
+/* Radial Soft White Glow */
+.center-white-glow {
+  background: radial-gradient(
+    circle at 50% 35%,
+    rgba(255, 255, 255, 0.18),
+    transparent 55%
+  );
+}
+
+/* Custom scrollbars for SaaS UI */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #020202;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #262626;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #303030;
 }

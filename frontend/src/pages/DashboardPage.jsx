@@ -21,8 +21,6 @@ import {
   BarChart3,
   Zap,
   ArrowRight,
-  ShieldCheck,
-  Check,
   ChevronRight,
   Activity,
   Layers,
@@ -31,31 +29,31 @@ import {
 import { getDashboardStats } from '../services/api';
 
 const EVENT_ICON_MAP = {
-  sent: { label: 'Email sent', icon: Send, color: 'text-blue-600 bg-blue-50 border-blue-200' },
-  delivered: { label: 'Delivered', icon: CheckCircle2, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-  opened: { label: 'Open detected', icon: Eye, color: 'text-amber-600 bg-amber-50 border-amber-200' },
-  clicked: { label: 'Link clicked', icon: MousePointer, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
-  replied: { label: 'Reply received', icon: MessageSquareReply, color: 'text-purple-600 bg-purple-50 border-purple-200' },
-  failed: { label: 'Sending failed', icon: XCircle, color: 'text-rose-600 bg-rose-50 border-rose-200' },
-  bounced: { label: 'Email bounced', icon: AlertCircle, color: 'text-rose-600 bg-rose-50 border-rose-200' },
+  sent: { label: 'Email sent', icon: Send, color: 'text-white bg-[#262626] border-white/10' },
+  delivered: { label: 'Delivered', icon: CheckCircle2, color: 'text-white bg-[#262626] border-white/10' },
+  opened: { label: 'Open detected', icon: Eye, color: 'text-white bg-[#262626] border-white/10' },
+  clicked: { label: 'Link clicked', icon: MousePointer, color: 'text-white bg-[#262626] border-white/10' },
+  replied: { label: 'Reply received', icon: MessageSquareReply, color: 'text-white bg-[#262626] border-white/10' },
+  failed: { label: 'Sending failed', icon: XCircle, color: 'text-white bg-[#262626] border-white/10' },
+  bounced: { label: 'Email bounced', icon: AlertCircle, color: 'text-white bg-[#262626] border-white/10' },
 };
 
 const CAMPAIGN_STATUS_BADGES = {
-  draft: 'bg-slate-100 text-slate-700 border-slate-200',
-  scheduled: 'bg-amber-50 text-amber-700 border-amber-200',
-  running: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  paused: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-  completed: 'bg-blue-50 text-blue-700 border-blue-200',
-  failed: 'bg-rose-50 text-rose-700 border-rose-200',
+  draft: 'bg-[#1A1B1A] text-[#A1A1AA] border-white/10',
+  scheduled: 'bg-white/10 text-white border-white/20',
+  running: 'bg-white text-black border-white font-bold',
+  paused: 'bg-[#262626] text-[#A1A1AA] border-white/10',
+  completed: 'bg-white/10 text-white border-white/20',
+  failed: 'bg-white/10 text-white border-white/20',
 };
 
 const WORKFLOW_STEPS = [
-  { step: '01', title: 'Upload PDF', desc: 'Drag & drop document files containing contact lists', icon: FileUp, link: '/upload' },
-  { step: '02', title: 'Extract Contacts', desc: 'Auto-extract names, emails, roles & companies', icon: Zap, link: '/contacts' },
-  { step: '03', title: 'Create Campaign', desc: 'Select recipients & pick high-converting templates', icon: Plus, link: '/campaigns/new' },
-  { step: '04', title: 'Send Emails', desc: 'Dispatch personalized emails via your connected Gmail API', icon: Send, link: '/campaigns' },
-  { step: '05', title: 'Automated Follow-ups', desc: 'Multi-step sequences that pause automatically when replied', icon: Clock, link: '/campaigns' },
-  { step: '06', title: 'Track Engagement', desc: 'Real-time open pixels, link clicks & inbox reply detection', icon: BarChart3, link: '/' },
+  { step: '01', title: 'Upload PDF', desc: 'Drag & drop document files containing contact lists', icon: FileUp, link: '/dashboard/upload' },
+  { step: '02', title: 'Extract Contacts', desc: 'Auto-extract names, emails, roles & companies', icon: Zap, link: '/dashboard/contacts' },
+  { step: '03', title: 'Create Campaign', desc: 'Select recipients & pick high-converting templates', icon: Plus, link: '/dashboard/campaigns/new' },
+  { step: '04', title: 'Send Emails', desc: 'Dispatch personalized emails via your connected Gmail API', icon: Send, link: '/dashboard/campaigns' },
+  { step: '05', title: 'Automated Follow-ups', desc: 'Multi-step sequences that pause automatically when replied', icon: Clock, link: '/dashboard/campaigns' },
+  { step: '06', title: 'Track Engagement', desc: 'Real-time open pixels, link clicks & inbox reply detection', icon: BarChart3, link: '/dashboard' },
 ];
 
 const CORE_FEATURES = [
@@ -64,42 +62,42 @@ const CORE_FEATURES = [
     desc: 'Intelligent multi-format PDF parsing that automatically extracts names, emails, companies, and job titles with zero manual data entry.',
     icon: FileUp,
     badge: 'Automated',
-    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
   {
     title: 'Personalized Email Campaigns',
     desc: 'Dynamic template engine with variable substitution ({{name}}, {{role}}, {{company}}) and pre-loaded templates for Internship, Job App, & Referral.',
     icon: Send,
     badge: 'Templates Included',
-    badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
   {
     title: 'Automated Follow-up Engine',
     desc: 'Schedule multi-step follow-up delays that automatically stop the sequence the moment a recipient replies to your outreach.',
     icon: Clock,
     badge: 'Smart Cancelling',
-    badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
   {
     title: 'Gmail Reply Detection',
     desc: 'Automated Gmail inbox monitoring matching incoming thread replies to contact records and updating status to Replied.',
     icon: MailCheck,
     badge: 'Inbox Monitoring',
-    badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
   {
     title: 'Email Open & Click Tracking',
     desc: 'Embedded 1x1 tracking pixels and link redirects with 5-second event deduplication to measure true recipient engagement.',
     icon: Eye,
     badge: 'Deduplicated',
-    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
   {
     title: 'Campaign Analytics',
     desc: 'Real-time analytics dashboard with aggregated metrics, recipient timelines, activity streams, and status breakdown reports.',
     icon: BarChart3,
     badge: 'Live Data',
-    badgeColor: 'bg-slate-100 text-slate-700 border-slate-200',
+    badgeColor: 'bg-white/10 text-white border-white/15',
   },
 ];
 
@@ -150,42 +148,41 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-16">
       {/* 1. HERO HEADER BANNER */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-8 sm:p-10 text-white shadow-xl border border-blue-900/40">
-        <div className="absolute -right-12 -top-12 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -left-12 -bottom-12 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0E0E0E] via-[#1A1B1A] to-[#0E0E0E] p-8 sm:p-10 text-white shadow-2xl border border-white/10">
+        <div className="hero-charcoal-shape -right-12 -top-12" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-300 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-xs font-semibold text-[#A1A1AA]">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
               <span>Outly Automated Outreach & Email Platform</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#FBFBFC] leading-tight">
               Welcome to Outly
             </h1>
 
-            <p className="text-base sm:text-lg font-medium text-blue-100/90 leading-relaxed">
+            <p className="text-base sm:text-lg font-medium text-[#A1A1AA] leading-relaxed">
               Reach out. Follow up. Never lose a lead.
             </p>
 
-            <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
+            <p className="text-xs text-[#71717A] max-w-xl leading-relaxed">
               Extract contacts from PDF files, launch personalized Gmail outreach campaigns, and let automated follow-up sequences close your leads.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 self-start lg:self-auto shrink-0 pt-2 lg:pt-0">
             <button
-              onClick={() => navigate('/campaigns/new')}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              onClick={() => navigate('/dashboard/campaigns/new')}
+              className="primary-btn px-5 py-3 rounded-xl text-xs font-bold flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Create New Campaign
             </button>
 
             <button
-              onClick={() => navigate('/upload')}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98]"
+              onClick={() => navigate('/dashboard/upload')}
+              className="secondary-btn px-5 py-3 rounded-xl text-xs font-bold flex items-center gap-2"
             >
               <FileUp className="w-4 h-4" />
               Upload PDF
@@ -196,46 +193,42 @@ export default function DashboardPage() {
 
       {/* Error Alert */}
       {error && (
-        <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between shadow-xs">
+        <div className="p-4 rounded-2xl bg-[#1A1B1A] border border-white/20 text-white text-xs flex items-center justify-between shadow-2xl">
           <div className="flex items-center gap-2 font-medium">
-            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            <AlertCircle className="w-4 h-4 text-white shrink-0" />
             <span>{error}</span>
           </div>
-          <button onClick={fetchStats} className="px-3 py-1 bg-white border border-rose-200 rounded-lg font-bold hover:bg-rose-100 text-rose-700">
+          <button onClick={fetchStats} className="px-3 py-1 secondary-btn rounded-lg font-bold">
             Retry
           </button>
         </div>
       )}
 
-      {/* 2. QUICK STATS CARDS (4 Primary Cards) */}
+      {/* 2. QUICK STATS CARDS (4 Primary Cards - #1A1B1A Surface) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {[
           {
             label: 'Total Contacts',
             value: metrics.totalContacts,
             icon: Users,
-            color: 'text-blue-600 bg-blue-50 border-blue-200/80',
             desc: 'Verified outreach contacts'
           },
           {
             label: 'Emails Sent',
             value: metrics.emailsSent,
             icon: Send,
-            color: 'text-emerald-600 bg-emerald-50 border-emerald-200/80',
             desc: 'Dispatched via Gmail API'
           },
           {
             label: 'Follow-ups Pending',
             value: metrics.followUpsPending,
             icon: Clock,
-            color: 'text-indigo-600 bg-indigo-50 border-indigo-200/80',
             desc: 'Scheduled queue jobs'
           },
           {
             label: 'Replies Received',
             value: metrics.replies,
             icon: MessageSquareReply,
-            color: 'text-purple-600 bg-purple-50 border-purple-200/80',
             desc: 'Active inbox responses'
           },
         ].map((card, idx) => {
@@ -243,38 +236,38 @@ export default function DashboardPage() {
           return (
             <div
               key={idx}
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-blue-300 transition-all flex flex-col justify-between space-y-3"
+              className="bg-[#1A1B1A] rounded-2xl p-5 border border-white/10 shadow-2xl hover:border-white/20 transition-all flex flex-col justify-between space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{card.label}</span>
-                <div className={`p-2.5 rounded-xl border ${card.color}`}>
+                <span className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider">{card.label}</span>
+                <div className="p-2.5 rounded-xl bg-[#262626] border border-white/10 text-white">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
               <div>
-                <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  {loading ? <Loader2 className="w-6 h-6 animate-spin text-slate-300" /> : card.value.toLocaleString()}
+                <span className="text-2xl sm:text-3xl font-extrabold text-[#FBFBFC] tracking-tight">
+                  {loading ? <Loader2 className="w-6 h-6 animate-spin text-[#71717A]" /> : card.value.toLocaleString()}
                 </span>
-                <p className="text-[11px] text-slate-400 font-medium mt-0.5">{card.desc}</p>
+                <p className="text-[11px] text-[#71717A] font-medium mt-0.5">{card.desc}</p>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* 3. HOW OUTLY WORKS SECTION (6-step visual workflow) */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+      {/* 3. HOW OUTLY WORKS SECTION (#0E0E0E Container + #1A1B1A Step Cards) */}
+      <div className="bg-[#0E0E0E] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Zap className="w-5 h-5 text-blue-600" />
+            <h3 className="text-base font-bold text-[#FBFBFC] flex items-center gap-2">
+              <Zap className="w-5 h-5 text-white" />
               How Outly Works
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#A1A1AA] mt-0.5">
               The automated email outreach lifecycle from PDF extraction to reply detection.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200/60 self-start sm:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-white/10 text-white border border-white/15 self-start sm:self-auto">
             6 Automated Steps
           </span>
         </div>
@@ -286,28 +279,28 @@ export default function DashboardPage() {
               <div
                 key={idx}
                 onClick={() => navigate(step.link)}
-                className="group relative bg-slate-50/70 hover:bg-white rounded-2xl p-5 border border-slate-200/60 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-4"
+                className="group relative bg-[#1A1B1A] hover:bg-[#262626] rounded-2xl p-5 border border-white/10 hover:border-white/20 transition-all cursor-pointer flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center font-bold text-xs group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 text-white flex items-center justify-center font-bold text-xs group-hover:bg-white group-hover:text-black transition-colors">
                       <Icon className="w-4.5 h-4.5" />
                     </div>
-                    <span className="text-xs font-mono font-bold text-slate-300 group-hover:text-blue-600 transition-colors">
+                    <span className="text-xs font-mono font-bold text-[#71717A] group-hover:text-white transition-colors">
                       STEP {step.step}
                     </span>
                   </div>
 
-                  <h4 className="font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <h4 className="font-bold text-sm text-[#FBFBFC] group-hover:text-white transition-colors">
                     {step.title}
                   </h4>
 
-                  <p className="text-xs text-slate-500 leading-relaxed font-sans">
+                  <p className="text-xs text-[#A1A1AA] leading-relaxed font-sans">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="flex items-center text-[11px] font-semibold text-blue-600 gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center text-[11px] font-semibold text-white gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <span>Explore step</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
@@ -317,14 +310,14 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* 4. CORE FEATURES SECTION (6 Cards) */}
+      {/* 4. CORE FEATURES SECTION (#1A1B1A Surface Cards) */}
       <div className="space-y-4">
         <div>
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-blue-600" />
+          <h3 className="text-base font-bold text-[#FBFBFC] flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-white" />
             Core Outly Capabilities
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-[#A1A1AA] mt-0.5">
             Everything built into Outly to scale your cold email outreach.
           </p>
         </div>
@@ -335,11 +328,11 @@ export default function DashboardPage() {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:border-blue-300 transition-all flex flex-col justify-between space-y-3"
+                className="bg-[#1A1B1A] rounded-2xl p-5 border border-white/10 shadow-2xl hover:bg-[#262626] hover:border-white/20 transition-all flex flex-col justify-between space-y-3"
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
+                    <div className="p-2.5 rounded-xl bg-white/10 text-white border border-white/15">
                       <Icon className="w-4 h-4" />
                     </div>
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider ${feat.badgeColor}`}>
@@ -347,8 +340,8 @@ export default function DashboardPage() {
                     </span>
                   </div>
 
-                  <h4 className="font-bold text-sm text-slate-900">{feat.title}</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed font-sans">{feat.desc}</p>
+                  <h4 className="font-bold text-sm text-[#FBFBFC]">{feat.title}</h4>
+                  <p className="text-xs text-[#A1A1AA] leading-relaxed font-sans">{feat.desc}</p>
                 </div>
               </div>
             );
@@ -356,28 +349,28 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* 5. RECENT CAMPAIGNS SECTION */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-100">
+      {/* 5. RECENT CAMPAIGNS SECTION (#0E0E0E Container) */}
+      <div className="bg-[#0E0E0E] rounded-3xl p-6 border border-white/10 shadow-2xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-white/10">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Send className="w-4 h-4 text-blue-600" /> Recent Outreach Campaigns
+            <h3 className="text-base font-bold text-[#FBFBFC] flex items-center gap-2">
+              <Send className="w-4 h-4 text-white" /> Recent Outreach Campaigns
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#A1A1AA] mt-0.5">
               Monitor active campaign progress, recipient lists, and sending statuses.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => navigate('/campaigns')}
-              className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+              onClick={() => navigate('/dashboard/campaigns')}
+              className="secondary-btn px-3 py-1.5 rounded-lg text-xs font-semibold"
             >
               View All Campaigns
             </button>
             <button
-              onClick={() => navigate('/campaigns/new')}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-2xs transition-colors"
+              onClick={() => navigate('/dashboard/campaigns/new')}
+              className="primary-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold"
             >
               <Plus className="w-3.5 h-3.5" /> Create
             </button>
@@ -387,60 +380,60 @@ export default function DashboardPage() {
         {/* Toolbar - Search & Filter */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="relative flex-1 w-full">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#71717A] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={campaignSearch}
               onChange={(e) => setCampaignSearch(e.target.value)}
               placeholder="Search campaigns by name or subject line..."
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-1 focus:ring-blue-500"
+              className="w-full pl-9 pr-4 py-2 bg-[#1A1B1A] border border-white/10 rounded-xl text-xs text-white placeholder:text-[#71717A] focus:outline-none focus:border-white/30"
             />
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter className="w-4 h-4 text-slate-400 shrink-0" />
+            <Filter className="w-4 h-4 text-[#71717A] shrink-0" />
             <select
               value={campaignStatusFilter}
               onChange={(e) => setCampaignStatusFilter(e.target.value)}
-              className="w-full sm:w-auto px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:ring-1 focus:ring-blue-500"
+              className="w-full sm:w-auto px-3 py-2 bg-[#1A1B1A] border border-white/10 rounded-xl text-xs font-medium text-white focus:outline-none focus:border-white/30"
             >
-              <option value="">All Statuses</option>
-              <option value="draft">Draft</option>
-              <option value="running">Running</option>
-              <option value="paused">Paused</option>
-              <option value="completed">Completed</option>
+              <option value="" className="bg-[#1A1B1A] text-white">All Statuses</option>
+              <option value="draft" className="bg-[#1A1B1A] text-white">Draft</option>
+              <option value="running" className="bg-[#1A1B1A] text-white">Running</option>
+              <option value="paused" className="bg-[#1A1B1A] text-white">Paused</option>
+              <option value="completed" className="bg-[#1A1B1A] text-white">Completed</option>
             </select>
           </div>
         </div>
 
         {/* Campaigns Table / Empty State */}
         {loading ? (
-          <div className="p-8 text-center text-slate-400 flex flex-col items-center gap-2">
-            <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+          <div className="p-8 text-center text-[#71717A] flex flex-col items-center gap-2">
+            <Loader2 className="w-6 h-6 animate-spin text-white" />
             <span className="text-xs">Loading campaign data...</span>
           </div>
         ) : filteredCampaigns.length === 0 ? (
-          <div className="p-10 text-center border-2 border-dashed border-slate-100 rounded-2xl space-y-3">
-            <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+          <div className="p-10 text-center border border-dashed border-white/15 rounded-2xl space-y-3 bg-[#1A1B1A]">
+            <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center mx-auto border border-white/15">
               <Layers className="w-5 h-5" />
             </div>
-            <h4 className="text-sm font-bold text-slate-800">No campaigns found</h4>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <h4 className="text-sm font-bold text-[#FBFBFC]">No campaigns found</h4>
+            <p className="text-xs text-[#A1A1AA] max-w-sm mx-auto">
               {campaignSearch || campaignStatusFilter
                 ? 'No campaigns match your search query.'
                 : 'Create your first email outreach campaign to start sending automated emails.'}
             </p>
             <button
-              onClick={() => navigate('/campaigns/new')}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs"
+              onClick={() => navigate('/dashboard/campaigns/new')}
+              className="primary-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs"
             >
               <Plus className="w-4 h-4" /> Create First Campaign
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-slate-100">
-            <table className="w-full text-left text-xs text-slate-700">
-              <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-100">
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#1A1B1A]">
+            <table className="w-full text-left text-xs text-[#F5F5F5]">
+              <thead className="bg-[#1A1B1A] text-[#A1A1AA] uppercase tracking-wider font-semibold border-b border-white/10">
                 <tr>
                   <th className="p-3">Campaign Name</th>
                   <th className="p-3">Subject Line</th>
@@ -450,18 +443,18 @@ export default function DashboardPage() {
                   <th className="p-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-white/10">
                 {filteredCampaigns.slice(0, 5).map((c) => {
                   const total = c.contactsCount || c.contacts?.length || 0;
                   const sent = c.sentCount || 0;
                   const percent = total > 0 ? Math.round((sent / total) * 100) : 0;
-                  const badgeClass = CAMPAIGN_STATUS_BADGES[c.status] || 'bg-slate-100 text-slate-700';
+                  const badgeClass = CAMPAIGN_STATUS_BADGES[c.status] || 'bg-white/10 text-white border-white/15';
 
                   return (
-                    <tr key={c._id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="p-3 font-bold text-slate-900">{c.name}</td>
-                      <td className="p-3 text-slate-600 max-w-xs truncate">{c.subject}</td>
-                      <td className="p-3 text-center font-mono font-bold text-slate-900">{total}</td>
+                    <tr key={c._id} className="hover:bg-[#262626] transition-colors">
+                      <td className="p-3 font-bold text-[#FBFBFC]">{c.name}</td>
+                      <td className="p-3 text-[#A1A1AA] max-w-xs truncate">{c.subject}</td>
+                      <td className="p-3 text-center font-mono font-bold text-white">{total}</td>
                       <td className="p-3">
                         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${badgeClass}`}>
                           {c.status}
@@ -469,19 +462,19 @@ export default function DashboardPage() {
                       </td>
                       <td className="p-3 min-w-[140px]">
                         <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                          <div className="flex justify-between text-[10px] text-[#71717A] font-mono">
                             <span>{sent}/{total} sent</span>
                             <span>{percent}%</span>
                           </div>
-                          <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                            <div className="bg-blue-600 h-1.5 rounded-full transition-all" style={{ width: `${percent}%` }} />
+                          <div className="w-full bg-[#262626] rounded-full h-1.5 overflow-hidden">
+                            <div className="bg-white h-1.5 rounded-full transition-all" style={{ width: `${percent}%` }} />
                           </div>
                         </div>
                       </td>
                       <td className="p-3 text-right">
                         <button
-                          onClick={() => navigate(`/campaigns/${c._id}`)}
-                          className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-semibold"
+                          onClick={() => navigate(`/dashboard/campaigns/${c._id}`)}
+                          className="inline-flex items-center gap-1 text-white hover:underline font-semibold"
                         >
                           <span>Manage</span>
                           <ChevronRight className="w-3.5 h-3.5" />
@@ -496,20 +489,20 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* 6. RECENT ACTIVITY STREAM SECTION */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+      {/* 6. RECENT ACTIVITY STREAM SECTION (#0E0E0E Container) */}
+      <div className="bg-[#0E0E0E] rounded-3xl p-6 border border-white/10 shadow-2xl space-y-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Activity className="w-4 h-4 text-purple-600" /> Recent Email Activity Stream
+            <h3 className="text-base font-bold text-[#FBFBFC] flex items-center gap-2">
+              <Activity className="w-4 h-4 text-white" /> Recent Email Activity Stream
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#A1A1AA] mt-0.5">
               Live engagement log showing sent emails, open events, link clicks, and recipient replies.
             </p>
           </div>
           <button
             onClick={fetchStats}
-            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+            className="p-1.5 text-[#71717A] hover:text-white rounded-lg hover:bg-white/10 transition-colors"
             title="Refresh stream"
           >
             <RefreshCw className="w-4 h-4" />
@@ -517,15 +510,15 @@ export default function DashboardPage() {
         </div>
 
         {loading ? (
-          <div className="p-8 text-center text-slate-400 flex flex-col items-center gap-2">
-            <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+          <div className="p-8 text-center text-[#71717A] flex flex-col items-center gap-2">
+            <Loader2 className="w-6 h-6 animate-spin text-white" />
             <span className="text-xs">Loading activity feed...</span>
           </div>
         ) : (!data?.recentEvents && !data?.recentActivity) || ((data?.recentEvents || data?.recentActivity || []).length === 0) ? (
-          <div className="p-10 text-center border-2 border-dashed border-slate-100 rounded-2xl space-y-2">
-            <Inbox className="w-8 h-8 text-slate-300 mx-auto" />
-            <h4 className="text-sm font-bold text-slate-800">No activity recorded yet</h4>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+          <div className="p-10 text-center border border-dashed border-white/15 rounded-2xl space-y-2 bg-[#1A1B1A]">
+            <Inbox className="w-8 h-8 text-[#71717A] mx-auto" />
+            <h4 className="text-sm font-bold text-[#FBFBFC]">No activity recorded yet</h4>
+            <p className="text-xs text-[#A1A1AA] max-w-sm mx-auto">
               Once you launch an outreach campaign, dispatched emails and recipient opens will appear here in real-time.
             </p>
           </div>
@@ -533,7 +526,7 @@ export default function DashboardPage() {
           <div className="space-y-2.5">
             {(data?.recentEvents || data?.recentActivity || []).slice(0, 8).map((evt) => {
               const evtType = evt.type || evt.eventType || 'sent';
-              const config = EVENT_ICON_MAP[evtType] || { label: evtType, icon: Activity, color: 'text-slate-600 bg-slate-50 border-slate-200' };
+              const config = EVENT_ICON_MAP[evtType] || { label: evtType, icon: Activity, color: 'text-white bg-[#262626] border-white/10' };
               const Icon = config.icon;
               const contactEmail = evt.contactEmail || evt.contactId?.email || 'Recipient';
               const timeStr = evt.timestamp ? new Date(evt.timestamp).toLocaleString() : 'Just now';
@@ -541,22 +534,22 @@ export default function DashboardPage() {
               return (
                 <div
                   key={evt._id}
-                  className="p-3 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-between gap-3 text-xs hover:bg-slate-50 transition-colors"
+                  className="p-3 rounded-2xl bg-[#1A1B1A] border border-white/10 flex items-center justify-between gap-3 text-xs hover:bg-[#262626] transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className={`p-2 rounded-xl border ${config.color} shrink-0`}>
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="font-bold text-slate-900 truncate">
-                        {config.label} — <span className="text-blue-600">{contactEmail}</span>
+                      <div className="font-bold text-[#FBFBFC] truncate">
+                        {config.label} — <span className="text-white font-mono">{contactEmail}</span>
                       </div>
                       {evt.campaignName && (
-                        <span className="text-[10px] text-slate-400">Campaign: {evt.campaignName}</span>
+                        <span className="text-[10px] text-[#71717A]">Campaign: {evt.campaignName}</span>
                       )}
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400 shrink-0">{timeStr}</span>
+                  <span className="text-[10px] font-mono text-[#71717A] shrink-0">{timeStr}</span>
                 </div>
               );
             })}

@@ -20,6 +20,22 @@ const userSchema = new mongoose.Schema(
         'Please provide a valid email address',
       ],
     },
+    password: {
+      type: String,
+      select: false,
+    },
+    avatar: {
+      type: String,
+      default: '',
+    },
+    company: {
+      type: String,
+      default: '',
+    },
+    role: {
+      type: String,
+      default: 'Growth Marketer',
+    },
   },
   {
     timestamps: true,
@@ -30,6 +46,7 @@ const userSchema = new mongoose.Schema(
 userSchema.set('toJSON', {
   transform: (_doc, ret) => {
     delete ret.__v;
+    delete ret.password;
     return ret;
   },
 });
@@ -37,3 +54,4 @@ userSchema.set('toJSON', {
 const User = mongoose.model('User', userSchema);
 
 export default User;
+

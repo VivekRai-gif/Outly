@@ -4,19 +4,16 @@ import {
   Send, 
   Users, 
   FileText, 
-  Eye, 
   Clock, 
   Plus, 
   Trash2, 
   Save, 
   ArrowLeft, 
   AlertCircle, 
-  Loader2,
-  Tag
+  Loader2
 } from 'lucide-react';
 import { getContacts, createCampaign, getCampaignById, updateCampaign } from '../services/api';
 import EmailComposer from '../components/EmailComposer';
-import { renderTemplate } from '../utils/templateEngine';
 
 export default function CreateCampaignPage() {
   const navigate = useNavigate();
@@ -172,7 +169,7 @@ Vivek Rai`);
         await createCampaign(payload);
       }
       setSaving(false);
-      navigate('/campaigns');
+      navigate('/dashboard/campaigns');
     } catch (err) {
       setSaving(false);
       setErrorMsg(err.response?.data?.message || err.message || 'Failed to save campaign');
@@ -180,21 +177,21 @@ Vivek Rai`);
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+    <div className="space-y-6 max-w-5xl mx-auto pb-16">
       {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
-            onClick={() => navigate('/campaigns')}
-            className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+            onClick={() => navigate('/dashboard/campaigns')}
+            className="p-2 text-[#71717A] hover:text-white hover:bg-white/10 rounded-xl transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h2 className="text-lg font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-[#FBFBFC]">
               {isEditMode ? 'Edit Campaign' : 'Create New Campaign'}
             </h2>
-            <p className="text-sm text-slate-500">
+            <p className="text-xs text-[#A1A1AA]">
               Configure outreach templates, personalized variables, target recipients, and follow-up schedules.
             </p>
           </div>
@@ -204,9 +201,9 @@ Vivek Rai`);
           <button
             onClick={() => handleSaveCampaign('draft')}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
+            className="secondary-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold"
           >
-            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5 text-slate-500" />}
+            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5 text-white" />}
             Save as Draft
           </button>
         </div>
@@ -214,14 +211,14 @@ Vivek Rai`);
 
       {/* Error Alert */}
       {errorMsg && (
-        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+        <div className="p-4 rounded-2xl bg-[#1A1B1A] border border-white/20 text-white text-xs flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 text-white shrink-0" />
           <span className="font-medium">{errorMsg}</span>
         </div>
       )}
 
       {/* Tabs Header */}
-      <div className="bg-white rounded-xl p-1.5 border border-slate-200/80 shadow-xs flex items-center gap-1 overflow-x-auto">
+      <div className="bg-[#0E0E0E] rounded-2xl p-1.5 border border-white/10 shadow-2xl flex items-center gap-1 overflow-x-auto">
         {[
           { id: 'details', label: '1. Setup & Recipients', icon: Users, badge: selectedContactIds.length },
           { id: 'composer', label: '2. Email Composer & Preview', icon: FileText },
@@ -234,16 +231,16 @@ Vivek Rai`);
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`
-                flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap
+                flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap
                 ${isActive 
-                  ? 'bg-blue-600 text-white shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'}
+                  ? 'bg-white text-black font-bold shadow-2xs' 
+                  : 'text-[#A1A1AA] hover:text-white hover:bg-white/10'}
               `}
             >
               <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
               {tab.badge !== undefined && (
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${isActive ? 'bg-blue-500 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${isActive ? 'bg-black text-white' : 'bg-[#262626] text-white border border-white/10'}`}>
                   {tab.badge}
                 </span>
               )}
@@ -255,96 +252,96 @@ Vivek Rai`);
       {/* TAB 1: Setup & Recipients */}
       {activeTab === 'details' && (
         <div className="space-y-6">
-          <div className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
+          <div className="bg-[#1A1B1A] rounded-2xl p-6 border border-white/10 shadow-2xl space-y-4">
+            <h3 className="text-sm font-bold text-[#FBFBFC] border-b border-white/10 pb-3">
               Campaign Configuration
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Campaign Name *</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Campaign Name *</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. August Software Intern Outreach"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs text-white placeholder:text-[#71717A] focus:outline-none focus:border-white/30"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Status</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Status</label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-white/30"
                 >
-                  <option value="draft">Draft</option>
-                  <option value="scheduled">Scheduled</option>
-                  <option value="running">Running</option>
-                  <option value="paused">Paused</option>
+                  <option value="draft" className="bg-[#1A1B1A] text-white">Draft</option>
+                  <option value="scheduled" className="bg-[#1A1B1A] text-white">Scheduled</option>
+                  <option value="running" className="bg-[#1A1B1A] text-white">Running</option>
+                  <option value="paused" className="bg-[#1A1B1A] text-white">Paused</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Description (Optional)</label>
+              <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Description (Optional)</label>
               <textarea
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Internal campaign description and goals..."
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs text-white placeholder:text-[#71717A] focus:outline-none focus:border-white/30"
               />
             </div>
           </div>
 
           {/* Recipients Selection */}
-          <div className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="bg-[#1A1B1A] rounded-2xl p-6 border border-white/10 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
-                <h3 className="text-sm font-bold text-slate-900">Target Recipients</h3>
-                <p className="text-xs text-slate-500">Select contacts from your directory to include in this campaign.</p>
+                <h3 className="text-sm font-bold text-[#FBFBFC]">Target Recipients</h3>
+                <p className="text-xs text-[#A1A1AA]">Select contacts from your directory to include in this campaign.</p>
               </div>
               <button
                 onClick={handleSelectAllContacts}
-                className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                className="text-xs font-semibold text-white hover:underline"
               >
                 {selectedContactIds.length === availableContacts.length ? 'Deselect All' : 'Select All'}
               </button>
             </div>
 
             {loadingContacts ? (
-              <div className="p-8 text-center text-xs text-slate-400">Loading contacts directory...</div>
+              <div className="p-8 text-center text-xs text-[#71717A]">Loading contacts directory...</div>
             ) : availableContacts.length === 0 ? (
-              <div className="p-6 text-center text-xs text-slate-400">
+              <div className="p-6 text-center text-xs text-[#71717A]">
                 No saved contacts found. Upload a PDF or add contacts first.
               </div>
             ) : (
-              <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 border border-slate-200 rounded-lg">
+              <div className="max-h-64 overflow-y-auto divide-y divide-white/10 border border-white/10 rounded-xl bg-[#0E0E0E]">
                 {availableContacts.map((contact) => {
                   const isChecked = selectedContactIds.includes(contact._id);
                   return (
                     <div
                       key={contact._id}
                       onClick={() => handleToggleContact(contact._id)}
-                      className={`p-3 flex items-center justify-between cursor-pointer transition-colors ${isChecked ? 'bg-blue-50/50' : 'hover:bg-slate-50'}`}
+                      className={`p-3 flex items-center justify-between cursor-pointer transition-colors ${isChecked ? 'bg-[#262626]' : 'hover:bg-[#262626]'}`}
                     >
                       <div className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => {}}
-                          className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
+                          className="rounded border-white/20 text-white focus:ring-white w-4 h-4 cursor-pointer"
                         />
                         <div>
-                          <span className="font-semibold text-xs text-slate-900 block">{contact.name}</span>
-                          <span className="text-[11px] text-slate-500 font-mono">{contact.email}</span>
+                          <span className="font-semibold text-xs text-white block">{contact.name}</span>
+                          <span className="text-[11px] text-[#A1A1AA] font-mono">{contact.email}</span>
                         </div>
                       </div>
-                      <div className="text-right text-[11px] text-slate-500">
+                      <div className="text-right text-[11px] text-[#A1A1AA]">
                         <span>{contact.company || 'No Company'}</span>
-                        <span className="block text-slate-400">{contact.role || 'No Role'}</span>
+                        <span className="block text-[#71717A]">{contact.role || 'No Role'}</span>
                       </div>
                     </div>
                   );
@@ -371,13 +368,13 @@ Vivek Rai`);
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Follow-up Sequence Configurator</h3>
-              <p className="text-xs text-slate-500">Configure automated follow-ups sent when a recipient does not reply.</p>
+              <h3 className="text-sm font-bold text-[#FBFBFC]">Follow-up Sequence Configurator</h3>
+              <p className="text-xs text-[#A1A1AA]">Configure automated follow-ups sent when a recipient does not reply.</p>
             </div>
             <button
               type="button"
               onClick={handleAddFollowUp}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition-colors"
+              className="primary-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold"
             >
               <Plus className="w-3.5 h-3.5" />
               Add Follow-up Step
@@ -385,24 +382,24 @@ Vivek Rai`);
           </div>
 
           {followUps.length === 0 ? (
-            <div className="bg-white rounded-xl p-8 border border-slate-200 text-center text-xs text-slate-400 space-y-2">
-              <Clock className="w-8 h-8 mx-auto text-slate-300" />
-              <p className="font-semibold text-slate-700">No follow-ups configured</p>
+            <div className="bg-[#1A1B1A] rounded-2xl p-8 border border-white/10 text-center text-xs text-[#71717A] space-y-2">
+              <Clock className="w-8 h-8 mx-auto text-[#71717A]" />
+              <p className="font-semibold text-[#FBFBFC]">No follow-ups configured</p>
               <p>Add follow-up steps to automate non-reply check sequences.</p>
             </div>
           ) : (
             followUps.map((step, idx) => (
-              <div key={idx} className="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div key={idx} className="bg-[#1A1B1A] rounded-2xl p-5 border border-white/10 shadow-2xl space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">
+                    <span className="w-6 h-6 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-xs border border-white/15">
                       {idx + 1}
                     </span>
-                    <span className="font-bold text-xs text-slate-800">Follow-up Step #{idx + 1}</span>
+                    <span className="font-bold text-xs text-[#FBFBFC]">Follow-up Step #{idx + 1}</span>
                   </div>
                   <button
                     onClick={() => handleRemoveFollowUp(idx)}
-                    className="p-1 text-slate-400 hover:text-rose-600 rounded transition-colors"
+                    className="p-1 text-[#71717A] hover:text-white rounded transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -410,34 +407,34 @@ Vivek Rai`);
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Delay (Days after initial)</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Delay (Days after initial)</label>
                     <input
                       type="number"
                       min={1}
                       value={step.delayDays}
                       onChange={(e) => handleFollowUpChange(idx, 'delayDays', parseInt(e.target.value, 10) || 1)}
-                      className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-900"
+                      className="w-full px-3 py-1.5 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-white/30"
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Follow-up Subject</label>
+                    <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Follow-up Subject</label>
                     <input
                       type="text"
                       value={step.subject}
                       onChange={(e) => handleFollowUpChange(idx, 'subject', e.target.value)}
-                      className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900"
+                      className="w-full px-3 py-1.5 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs font-medium text-white focus:outline-none focus:border-white/30"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Follow-up Body</label>
+                  <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Follow-up Body</label>
                   <textarea
                     rows={3}
                     value={step.body}
                     onChange={(e) => handleFollowUpChange(idx, 'body', e.target.value)}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 font-mono"
+                    className="w-full p-2.5 bg-[#0E0E0E] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-white/30"
                   />
                 </div>
               </div>

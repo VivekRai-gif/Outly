@@ -1,0 +1,355 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  Zap, 
+  FileText, 
+  Send, 
+  Clock, 
+  Users, 
+  Mail, 
+  Flame, 
+  BarChart3, 
+  Play, 
+  ChevronRight,
+  Bot
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+
+export default function LandingPage() {
+  const { isAuthenticated, quickDemoLogin } = useAuth();
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState('demo');
+  const [extractedSample, setExtractedSample] = useState(false);
+
+  const handleLaunchDashboard = () => {
+    if (!isAuthenticated) {
+      quickDemoLogin();
+    }
+    navigate('/dashboard');
+  };
+
+  return (
+    <div className="min-h-screen bg-[#020202] text-[#F5F5F5] font-sans selection:bg-white selection:text-black relative overflow-hidden">
+      {/* 11. Huge Gray Charcoal Abstract Shape & White Glow */}
+      <div className="hero-charcoal-shape top-[-100px] left-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] center-white-glow pointer-events-none" />
+
+      {/* Top Floating Glass Header */}
+      <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="glass rounded-full px-5 py-3 flex items-center justify-between shadow-2xl">
+          {/* Logo & Brand */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-bold text-lg tracking-tight text-[#FBFBFC]">Outly</span>
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-[#A0A0A0] bg-white/5 px-1.5 py-0.5 rounded border border-white/10">AI</span>
+            </div>
+          </Link>
+
+          {/* Navigation Links Pill Box */}
+          <nav className="hidden md:flex items-center gap-1 bg-[#0E0E0E] border border-white/10 rounded-full px-3 py-1.5 text-xs font-medium text-[#A0A0A0]">
+            <a href="#features" className="px-3 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors">Features</a>
+            <a href="#workflow" className="px-3 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors">How It Works</a>
+            <a href="#security" className="px-3 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors">Security</a>
+            <a href="#analytics" className="px-3 py-1 rounded-full hover:text-white hover:bg-white/10 transition-colors">Analytics</a>
+          </nav>
+
+          {/* Action CTAs */}
+          <div className="flex items-center gap-3">
+            {isAuthenticated ? (
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="primary-btn px-4 py-2 rounded-full text-xs flex items-center gap-1.5"
+              >
+                <span>Dashboard</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  className="secondary-btn px-4 py-2 rounded-full text-xs"
+                >
+                  Sign In
+                </Link>
+                <button
+                  onClick={handleLaunchDashboard}
+                  className="primary-btn px-4 py-2 rounded-full text-xs flex items-center gap-1.5"
+                >
+                  <span>Launch App</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative pt-20 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center z-10">
+        {/* Sub-badge pill */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 backdrop-blur-md mb-8 text-xs font-medium text-[#A0A0A0]">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+          </span>
+          <span>Next-Gen PDF Outreach & Automated Follow-Up Platform</span>
+        </div>
+
+        {/* Hero Title - Monochromatic Contrast Styling */}
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#FBFBFC] leading-[1.1] mb-6">
+          Turn PDF Leads into <br className="hidden sm:block" />
+          <span className="text-[#F5F5F5]">Personalized Emails with </span>
+          <span className="font-serif italic font-normal text-[#A0A0A0]">
+            Smart Follow-ups
+          </span>
+        </h1>
+
+        {/* Sub-headline (Secondary Text - 60% opacity / #A0A0A0) */}
+        <p className="text-base sm:text-lg text-[#A0A0A0] max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
+          Upload contact lists or resumes in PDF format. Automatically extract clean contacts, schedule multi-step email campaigns, and auto-cancel follow-ups the second a lead replies.
+        </p>
+
+        {/* CTA Button Group */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <button
+            onClick={handleLaunchDashboard}
+            className="primary-btn w-full sm:w-auto px-8 py-3.5 rounded-full text-sm flex items-center justify-center gap-2 group"
+          >
+            <BarChart3 className="w-4 h-4 text-black group-hover:rotate-12 transition-transform" />
+            <span>Open Live Dashboard</span>
+            <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <a
+            href="#demo-section"
+            className="secondary-btn w-full sm:w-auto px-7 py-3.5 rounded-full text-sm flex items-center justify-center gap-2"
+          >
+            <FileText className="w-4 h-4 text-[#A0A0A0]" />
+            <span>Interactive PDF Demo</span>
+          </a>
+        </div>
+
+        {/* Stat Bar Divider Line */}
+        <div className="w-full h-px bg-white/10 mb-8" />
+
+        {/* Stats Callout Bar (Monochromatic Dark Grayscale) */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 px-6 rounded-2xl bg-[#0E0E0E] border border-white/10 backdrop-blur-md text-xs text-[#A0A0A0]">
+          <div className="flex items-center justify-center gap-2 font-medium">
+            <Zap className="w-4 h-4 text-white shrink-0" />
+            <span><strong className="text-[#FBFBFC] font-semibold">10,000+</strong> TPS Processing</span>
+          </div>
+          <div className="flex items-center justify-center gap-2 font-medium">
+            <Flame className="w-4 h-4 text-white shrink-0" />
+            <span><strong className="text-[#FBFBFC] font-semibold">99.4%</strong> Reply Stop Accuracy</span>
+          </div>
+          <div className="flex items-center justify-center gap-2 font-medium">
+            <ShieldCheck className="w-4 h-4 text-white shrink-0" />
+            <span><strong className="text-[#FBFBFC] font-semibold">100%</strong> Gmail OAuth 2.0</span>
+          </div>
+          <div className="flex items-center justify-center gap-2 font-medium">
+            <Clock className="w-4 h-4 text-white shrink-0" />
+            <span><strong className="text-[#FBFBFC] font-semibold">&lt; 2s</strong> PDF Parse Speed</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Interactive PDF Sandbox Teaser */}
+      <section id="demo-section" className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
+        <div className="bg-[#0E0E0E] border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 pb-6 border-b border-white/10">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#777777] block mb-1">Live Engine Preview</span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#FBFBFC] tracking-tight">PDF Contact Extraction & Follow-up Funnel</h2>
+            </div>
+            <div className="flex items-center gap-2 bg-[#1A1B1A] border border-white/10 rounded-xl p-1 text-xs">
+              <button 
+                onClick={() => setActiveTab('demo')}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === 'demo' ? 'bg-[#262626] text-white shadow-sm' : 'text-[#777777] hover:text-white'}`}
+              >
+                Extraction Sandbox
+              </button>
+              <button 
+                onClick={() => setActiveTab('workflow')}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === 'workflow' ? 'bg-[#262626] text-white shadow-sm' : 'text-[#777777] hover:text-white'}`}
+              >
+                Follow-up Logic
+              </button>
+            </div>
+          </div>
+
+          {activeTab === 'demo' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Left Sandbox Drop Area */}
+              <div className="bg-[#1A1B1A] border border-dashed border-white/20 rounded-2xl p-8 text-center hover:border-white/40 transition-all group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 text-white mx-auto flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <FileText className="w-7 h-7" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Simulate PDF Upload</h3>
+                <p className="text-xs text-[#A0A0A0] mb-6 max-w-xs mx-auto">
+                  Click below to test parsing contact data (Name, Email, Role, Company) from an example PDF file.
+                </p>
+                <button
+                  onClick={() => setExtractedSample(true)}
+                  className="primary-btn px-6 py-2.5 rounded-xl font-medium text-xs flex items-center gap-2 mx-auto"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Parse Sample PDF</span>
+                </button>
+              </div>
+
+              {/* Right Output Contacts Table */}
+              <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 min-h-[260px] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-semibold text-[#F5F5F5] flex items-center gap-2">
+                      <Users className="w-4 h-4 text-[#A0A0A0]" />
+                      Extracted Contacts Preview
+                    </span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/10 text-[#F5F5F5] border border-white/15">
+                      {extractedSample ? '3 Leads Identified' : 'Ready for input'}
+                    </span>
+                  </div>
+
+                  {extractedSample ? (
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-xl bg-[#262626] border border-white/10 flex items-center justify-between text-xs">
+                        <div>
+                          <p className="font-semibold text-white">Rahul Sharma</p>
+                          <p className="text-[#A0A0A0] text-[11px]">rahul@abctech.com • SDE Intern</p>
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-medium">ABC Tech</span>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-[#262626] border border-white/10 flex items-center justify-between text-xs">
+                        <div>
+                          <p className="font-semibold text-white">Priya Singh</p>
+                          <p className="text-[#A0A0A0] text-[11px]">priya@xyzlabs.io • Growth Lead</p>
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-medium">XYZ Labs</span>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-[#262626] border border-white/10 flex items-center justify-between text-xs">
+                        <div>
+                          <p className="font-semibold text-white">Alex Rivera</p>
+                          <p className="text-[#A0A0A0] text-[11px]">alex@monad.dev • Operations Mgr</p>
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-medium">Monad Labs</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-[#777777] text-xs flex flex-col items-center justify-center">
+                      <Bot className="w-8 h-8 text-[#555555] mb-2 animate-bounce" />
+                      <span>Click "Parse Sample PDF" on the left to test live extraction</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#A0A0A0]">
+                  <span>Variables: <code className="text-white">{`{{name}}`}</code>, <code className="text-white">{`{{company}}`}</code>, <code className="text-white">{`{{role}}`}</code></span>
+                  <button 
+                    onClick={handleLaunchDashboard} 
+                    className="text-white hover:underline font-medium flex items-center gap-1"
+                  >
+                    <span>Import to Campaign</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="py-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                <div className="p-4 rounded-2xl bg-[#1A1B1A] border border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-white/10 text-white mx-auto flex items-center justify-center mb-2 font-bold text-xs">Day 0</div>
+                  <h4 className="text-sm font-semibold text-white mb-1">Initial Email</h4>
+                  <p className="text-[11px] text-[#A0A0A0]">Personalized outreach sent automatically via Gmail API.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#1A1B1A] border border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-white/10 text-white mx-auto flex items-center justify-center mb-2 font-bold text-xs">Day 3</div>
+                  <h4 className="text-sm font-semibold text-white mb-1">Follow-up #1</h4>
+                  <p className="text-[11px] text-[#A0A0A0]">Gentle check-in if no reply detected.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#1A1B1A] border border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-white/10 text-white mx-auto flex items-center justify-center mb-2 font-bold text-xs">Reply?</div>
+                  <h4 className="text-sm font-semibold text-white mb-1">Auto Reply Detector</h4>
+                  <p className="text-[11px] text-[#A0A0A0]">Scans inbox for incoming lead response.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#262626] border border-white/20">
+                  <div className="w-8 h-8 rounded-full bg-white text-black mx-auto flex items-center justify-center mb-2 font-bold text-xs">STOP</div>
+                  <h4 className="text-sm font-semibold text-white mb-1">Sequence Cancelled</h4>
+                  <p className="text-[11px] text-[#A0A0A0]">Pending follow-ups immediately stopped!</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Feature Cards Grid (Surface #1A1B1A, border rgba(255,255,255,0.10)) */}
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-[#777777] mb-3">Engine Highlights</h2>
+          <p className="text-3xl sm:text-4xl font-extrabold text-[#FBFBFC] tracking-tight">Everything You Need for Effortless Outreach</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] hover:border-white/20 transition-all hover:translate-y-[-2px] group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <FileText className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Smart PDF Parsing</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Upload PDF documents, rosters, or resume bundles and extract clean contact objects with names, emails, roles, and companies instantly.
+            </p>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] hover:border-white/20 transition-all hover:translate-y-[-2px] group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Mail className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Personalized Variable Templates</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Define reusable email templates with custom tag variables like <code className="text-white">{`{{name}}`}</code> and <code className="text-white">{`{{company}}`}</code> for authentic multi-touch messaging.
+            </p>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] hover:border-white/20 transition-all hover:translate-y-[-2px] group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Flame className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Automated Reply Cancellation</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Never annoy leads who have already replied. Outly constantly monitors responses and auto-cancels scheduled follow-up steps.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 text-xs text-[#777777] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-white text-black font-bold text-xs flex items-center justify-center">O</div>
+          <span className="font-semibold text-[#F5F5F5]">Outly Engine &copy; 2026</span>
+          <span className="text-[#555555]">•</span>
+          <span>Reach out. Follow up. Never lose a lead.</span>
+        </div>
+
+        <div className="flex items-center gap-6 text-[#A0A0A0]">
+          <Link to="/signin" className="hover:text-white transition-colors">Sign In</Link>
+          <button onClick={handleLaunchDashboard} className="hover:text-white transition-colors">Live Dashboard</button>
+          <a href="#features" className="hover:text-white transition-colors">Documentation</a>
+        </div>
+      </footer>
+    </div>
+  );
+}

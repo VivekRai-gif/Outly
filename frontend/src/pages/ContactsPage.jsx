@@ -118,7 +118,7 @@ export default function ContactsPage() {
 
   const handleCreateCampaignFromSelected = () => {
     if (selectedContactIds.length === 0) return;
-    navigate('/campaigns/new', {
+    navigate('/dashboard/campaigns/new', {
       state: { selectedContactIds },
     });
   };
@@ -144,12 +144,12 @@ export default function ContactsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto pb-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-900">Contacts Directory</h2>
-          <p className="text-sm text-slate-500 mt-1">
+          <h2 className="text-xl font-bold text-[#FBFBFC]">Contacts Directory</h2>
+          <p className="text-xs text-[#A1A1AA] mt-1">
             Manage your verified outreach contacts, edit details, add manual entries, and track recipient statuses.
           </p>
         </div>
@@ -157,7 +157,7 @@ export default function ContactsPage() {
         <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs transition-colors"
+            className="primary-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold"
           >
             <UserPlus className="w-4 h-4" />
             Add Manual Entry
@@ -166,13 +166,13 @@ export default function ContactsPage() {
           <button
             onClick={handleCheckReplies}
             disabled={checkingRepliesState}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-2xs transition-colors"
+            className="secondary-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold"
             title="Scan Gmail Inbox for incoming replies"
           >
             {checkingRepliesState ? (
-              <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+              <Loader2 className="w-4 h-4 animate-spin text-white" />
             ) : (
-              <MailCheck className="w-4 h-4 text-purple-600" />
+              <MailCheck className="w-4 h-4 text-white" />
             )}
             Scan Replies
           </button>
@@ -180,7 +180,7 @@ export default function ContactsPage() {
           {selectedContactIds.length > 0 && (
             <button
               onClick={handleCreateCampaignFromSelected}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition-colors"
+              className="primary-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold"
             >
               <Send className="w-4 h-4" />
               Create Campaign ({selectedContactIds.length})
@@ -188,8 +188,8 @@ export default function ContactsPage() {
           )}
 
           <button
-            onClick={() => navigate('/upload')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+            onClick={() => navigate('/dashboard/upload')}
+            className="secondary-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold"
           >
             <Plus className="w-4 h-4" />
             Upload PDF
@@ -199,64 +199,64 @@ export default function ContactsPage() {
 
       {/* Reply Check Feedback Banner */}
       {replyFeedback && (
-        <div className="p-3 bg-purple-50 border border-purple-200 text-purple-800 text-xs rounded-xl flex items-center justify-between font-medium shadow-2xs">
+        <div className="p-3.5 bg-[#1A1B1A] border border-white/20 text-white text-xs rounded-xl flex items-center justify-between font-medium">
           <span>{replyFeedback}</span>
-          <button onClick={() => setReplyFeedback(null)} className="text-purple-600 hover:text-purple-900 font-bold">
+          <button onClick={() => setReplyFeedback(null)} className="text-white hover:underline font-bold">
             Dismiss
           </button>
         </div>
       )}
 
       {/* Toolbar - Search & Status Filter */}
-      <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-[#0E0E0E] rounded-2xl p-4 border border-white/10 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#71717A] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search contacts by name, email, company, or role..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-1 focus:ring-blue-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-[#1A1B1A] border border-white/10 rounded-xl text-xs text-white placeholder:text-[#71717A] focus:outline-none focus:border-white/30"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Filter className="w-4 h-4 text-slate-400 shrink-0" />
+          <Filter className="w-4 h-4 text-[#71717A] shrink-0" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full sm:w-auto px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:bg-white focus:ring-1 focus:ring-blue-500"
+            className="w-full sm:w-auto px-3 py-2 bg-[#1A1B1A] border border-white/10 rounded-xl text-xs font-medium text-white focus:outline-none focus:border-white/30"
           >
-            <option value="">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="ready">Ready</option>
-            <option value="sent">Sent</option>
-            <option value="follow_up_pending">Follow-up Pending</option>
-            <option value="replied">Replied</option>
-            <option value="bounced">Bounced</option>
-            <option value="failed">Failed</option>
+            <option value="" className="bg-[#1A1B1A] text-white">All Statuses</option>
+            <option value="pending" className="bg-[#1A1B1A] text-white">Pending</option>
+            <option value="ready" className="bg-[#1A1B1A] text-white">Ready</option>
+            <option value="sent" className="bg-[#1A1B1A] text-white">Sent</option>
+            <option value="follow_up_pending" className="bg-[#1A1B1A] text-white">Follow-up Pending</option>
+            <option value="replied" className="bg-[#1A1B1A] text-white">Replied</option>
+            <option value="bounced" className="bg-[#1A1B1A] text-white">Bounced</option>
+            <option value="failed" className="bg-[#1A1B1A] text-white">Failed</option>
           </select>
         </div>
       </div>
 
       {/* Contacts Table View */}
       {loading ? (
-        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400 flex flex-col items-center justify-center gap-2">
-          <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+        <div className="bg-[#0E0E0E] rounded-2xl border border-white/10 p-12 text-center text-[#71717A] flex flex-col items-center justify-center gap-2">
+          <Loader2 className="w-6 h-6 animate-spin text-white" />
           <span className="text-xs font-medium">Loading contacts...</span>
         </div>
       ) : error ? (
-        <div className="bg-white rounded-xl border border-slate-200 p-8 text-center text-rose-600 text-xs font-medium flex flex-col items-center gap-2">
+        <div className="bg-[#0E0E0E] rounded-2xl border border-white/10 p-8 text-center text-white text-xs font-medium flex flex-col items-center gap-2">
           <AlertCircle className="w-6 h-6" />
           <span>{error}</span>
         </div>
       ) : contacts.length === 0 ? (
-        <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs p-12 text-center space-y-3">
-          <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+        <div className="bg-[#0E0E0E] rounded-2xl border border-white/10 shadow-2xl p-12 text-center space-y-3">
+          <div className="w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center mx-auto border border-white/15">
             <Users className="w-6 h-6" />
           </div>
-          <h3 className="text-sm font-bold text-slate-800">No contacts in directory</h3>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
+          <h3 className="text-sm font-bold text-[#FBFBFC]">No contacts in directory</h3>
+          <p className="text-xs text-[#A1A1AA] max-w-md mx-auto">
             {searchQuery || statusFilter
               ? 'No contacts match your filter criteria.'
               : 'Add contacts manually or upload a PDF document containing contact details.'}
@@ -264,14 +264,14 @@ export default function ContactsPage() {
           <div className="flex items-center justify-center gap-2 pt-2">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+              className="primary-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold"
             >
               <UserPlus className="w-4 h-4" />
               Add Manual Entry
             </button>
             <button
-              onClick={() => navigate('/upload')}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs"
+              onClick={() => navigate('/dashboard/upload')}
+              className="secondary-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold"
             >
               <Plus className="w-4 h-4" />
               Upload PDF
@@ -291,19 +291,19 @@ export default function ContactsPage() {
 
       {/* MANUAL ENTRY CONTACT MODAL */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <form
             onSubmit={handleAddContactSubmit}
-            className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-xl border border-slate-200"
+            className="bg-[#0E0E0E] rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-white/10"
           >
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <UserPlus className="w-4 h-4 text-emerald-600" /> Add Contact Details Manually
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="font-bold text-sm text-[#FBFBFC] flex items-center gap-2">
+                <UserPlus className="w-4 h-4 text-white" /> Add Contact Details Manually
               </h3>
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg"
+                className="p-1 text-[#71717A] hover:text-white rounded-lg"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -312,25 +312,25 @@ export default function ContactsPage() {
             <div className="space-y-3 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Full Name *</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Full Name *</label>
                   <input
                     type="text"
                     value={addForm.name}
                     onChange={(e) => setAddForm({ ...addForm, name: e.target.value })}
                     placeholder="e.g. Rahul Sharma"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Email Address *</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Email Address *</label>
                   <input
                     type="email"
                     value={addForm.email}
                     onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
                     placeholder="e.g. rahul@example.com"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500 font-mono"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30 font-mono"
                     required
                   />
                 </div>
@@ -338,69 +338,69 @@ export default function ContactsPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Company</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Company</label>
                   <input
                     type="text"
                     value={addForm.company}
                     onChange={(e) => setAddForm({ ...addForm, company: e.target.value })}
                     placeholder="e.g. ABC Technologies"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Job Role / Title</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Job Role / Title</label>
                   <input
                     type="text"
                     value={addForm.role}
                     onChange={(e) => setAddForm({ ...addForm, role: e.target.value })}
                     placeholder="e.g. Software Engineer Intern"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Phone Number</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Phone Number</label>
                   <input
                     type="text"
                     value={addForm.phone}
                     onChange={(e) => setAddForm({ ...addForm, phone: e.target.value })}
                     placeholder="e.g. +91 9876543210"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500 font-mono"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30 font-mono"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Status</label>
+                  <label className="block font-semibold text-[#A1A1AA] mb-1">Status</label>
                   <select
                     value={addForm.status}
                     onChange={(e) => setAddForm({ ...addForm, status: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-1 focus:ring-blue-500 font-medium"
+                    className="w-full px-3 py-2 bg-[#1A1B1A] border border-white/10 text-white rounded-xl focus:outline-none focus:border-white/30 font-medium"
                   >
-                    <option value="ready">ready</option>
-                    <option value="pending">pending</option>
-                    <option value="sent">sent</option>
-                    <option value="follow_up_pending">follow_up_pending</option>
-                    <option value="replied">replied</option>
+                    <option value="ready" className="bg-[#1A1B1A] text-white">ready</option>
+                    <option value="pending" className="bg-[#1A1B1A] text-white">pending</option>
+                    <option value="sent" className="bg-[#1A1B1A] text-white">sent</option>
+                    <option value="follow_up_pending" className="bg-[#1A1B1A] text-white">follow_up_pending</option>
+                    <option value="replied" className="bg-[#1A1B1A] text-white">replied</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold"
+                className="secondary-btn px-4 py-2 rounded-xl text-xs font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+                className="primary-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold"
               >
                 {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 Save Contact

@@ -15,13 +15,13 @@ import {
 import { getContactActivity } from '../services/api';
 
 const EVENT_CONFIGS = {
-  sent: { label: 'Email Sent', icon: Send, color: 'text-blue-600 bg-blue-50 border-blue-200' },
-  delivered: { label: 'Delivered', icon: CheckCircle2, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-  opened: { label: 'Email Opened (Estimated)', icon: Eye, color: 'text-amber-600 bg-amber-50 border-amber-200' },
-  clicked: { label: 'Link Clicked', icon: MousePointer, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
-  replied: { label: 'Recipient Replied', icon: MessageSquareReply, color: 'text-emerald-700 bg-emerald-100 border-emerald-300' },
-  failed: { label: 'Sending Failed', icon: AlertCircle, color: 'text-rose-600 bg-rose-50 border-rose-200' },
-  bounced: { label: 'Email Bounced', icon: AlertCircle, color: 'text-rose-600 bg-rose-50 border-rose-200' },
+  sent: { label: 'Email Sent', icon: Send, color: 'text-white bg-[#262626] border-white/10' },
+  delivered: { label: 'Delivered', icon: CheckCircle2, color: 'text-white bg-[#262626] border-white/10' },
+  opened: { label: 'Email Opened (Estimated)', icon: Eye, color: 'text-white bg-[#262626] border-white/10' },
+  clicked: { label: 'Link Clicked', icon: MousePointer, color: 'text-white bg-[#262626] border-white/10' },
+  replied: { label: 'Recipient Replied', icon: MessageSquareReply, color: 'text-black bg-white border-white font-bold' },
+  failed: { label: 'Sending Failed', icon: AlertCircle, color: 'text-white bg-[#262626] border-white/10' },
+  bounced: { label: 'Email Bounced', icon: AlertCircle, color: 'text-white bg-[#262626] border-white/10' },
 };
 
 export default function ContactActivityModal({ contact, isOpen, onClose }) {
@@ -51,22 +51,22 @@ export default function ContactActivityModal({ contact, isOpen, onClose }) {
   if (!isOpen || !contact) return null;
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200 space-y-5">
+    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div className="bg-[#0E0E0E] rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-white/10 space-y-5 text-white">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
-            <h3 className="text-base font-bold text-slate-900">{contact.name}</h3>
-            <p className="text-xs font-mono text-slate-500">{contact.email}</p>
+            <h3 className="text-base font-bold text-[#FBFBFC]">{contact.name}</h3>
+            <p className="text-xs font-mono text-[#A1A1AA]">{contact.email}</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1">
+          <button onClick={onClose} className="text-[#71717A] hover:text-white p-1">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Disclaimer Notice */}
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 flex items-start gap-2">
-          <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+        <div className="p-3.5 rounded-xl bg-[#1A1B1A] border border-white/10 text-xs text-[#A1A1AA] flex items-start gap-2">
+          <Info className="w-4 h-4 text-white shrink-0 mt-0.5" />
           <span>
             Open events represent estimated pixel renders. Open tracking is not guaranteed as email clients may block or prefetch images.
           </span>
@@ -74,52 +74,52 @@ export default function ContactActivityModal({ contact, isOpen, onClose }) {
 
         {/* Activity Timeline List */}
         {loading ? (
-          <div className="p-8 text-center text-xs text-slate-400 flex flex-col items-center justify-center gap-2">
-            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+          <div className="p-8 text-center text-xs text-[#71717A] flex flex-col items-center justify-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin text-white" />
             Loading contact engagement timeline...
           </div>
         ) : error ? (
-          <div className="p-4 rounded-xl bg-rose-50 text-rose-700 text-xs text-center font-medium">
+          <div className="p-4 rounded-xl bg-[#1A1B1A] text-white text-xs text-center font-medium border border-white/10">
             {error}
           </div>
         ) : activity.length === 0 ? (
-          <div className="p-8 text-center text-xs text-slate-400 space-y-1">
-            <Clock className="w-6 h-6 mx-auto text-slate-300" />
-            <p className="font-semibold text-slate-700">No activity recorded yet</p>
+          <div className="p-8 text-center text-xs text-[#71717A] space-y-1">
+            <Clock className="w-6 h-6 mx-auto text-[#71717A]" />
+            <p className="font-semibold text-[#FBFBFC]">No activity recorded yet</p>
             <p>Outreach events will appear here as campaign emails are dispatched.</p>
           </div>
         ) : (
           <div className="max-h-80 overflow-y-auto space-y-3 pr-1">
             {activity.map((event) => {
-              const config = EVENT_CONFIGS[event.eventType] || { label: event.eventType, icon: Clock, color: 'bg-slate-100' };
+              const config = EVENT_CONFIGS[event.eventType] || { label: event.eventType, icon: Clock, color: 'bg-[#262626] text-white border-white/10' };
               const Icon = config.icon;
 
               return (
                 <div 
                   key={event._id}
-                  className="p-3 bg-slate-50/70 rounded-xl border border-slate-200/80 flex items-start justify-between gap-3 text-xs"
+                  className="p-3 bg-[#1A1B1A] rounded-xl border border-white/10 flex items-start justify-between gap-3 text-xs hover:bg-[#262626] transition-colors"
                 >
                   <div className="flex items-start gap-2.5">
                     <div className={`p-1.5 rounded-lg border ${config.color} shrink-0 mt-0.5`}>
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="font-bold text-slate-900 block">{config.label}</span>
+                      <span className="font-bold text-[#FBFBFC] block">{config.label}</span>
                       {event.emailId?.subject && (
-                        <span className="text-slate-500 font-mono text-[11px] block truncate max-w-xs">
+                        <span className="text-[#A1A1AA] font-mono text-[11px] block truncate max-w-xs">
                           {event.emailId.subject}
                         </span>
                       )}
                       {event.metadata?.url && (
-                        <span className="text-blue-600 font-mono text-[10px] block truncate max-w-xs">
+                        <span className="text-white font-mono text-[10px] block truncate max-w-xs">
                           URL: {event.metadata.url}
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <div className="text-right shrink-0 text-[11px] text-slate-400 font-mono">
-                    <div className="flex items-center gap-1 justify-end text-slate-600">
+                  <div className="text-right shrink-0 text-[11px] text-[#71717A] font-mono">
+                    <div className="flex items-center gap-1 justify-end text-[#A1A1AA]">
                       <Calendar className="w-3 h-3" />
                       {new Date(event.timestamp).toLocaleDateString()}
                     </div>
@@ -131,10 +131,10 @@ export default function ContactActivityModal({ contact, isOpen, onClose }) {
           </div>
         )}
 
-        <div className="pt-2 border-t border-slate-100 text-right">
+        <div className="pt-2 border-t border-white/10 text-right">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            className="secondary-btn px-4 py-1.5 rounded-xl text-xs font-semibold"
           >
             Close Timeline
           </button>

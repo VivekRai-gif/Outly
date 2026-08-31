@@ -14,7 +14,18 @@ import {
   BarChart3, 
   Play, 
   ChevronRight,
-  Bot
+  Bot,
+  Lock,
+  Eye,
+  MousePointerClick,
+  Workflow,
+  Layers,
+  KeyRound,
+  Database,
+  TrendingUp,
+  CheckCircle2,
+  Activity,
+  FileCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -293,11 +304,17 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Feature Cards Grid (Surface #1A1B1A, border rgba(255,255,255,0.10)) */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+      {/* 1. FEATURES SECTION (#features) */}
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 scroll-mt-20">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-[#777777] mb-3">Engine Highlights</h2>
-          <p className="text-3xl sm:text-4xl font-extrabold text-[#FBFBFC] tracking-tight">Everything You Need for Effortless Outreach</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#A0A0A0] mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-white" />
+            <span>Engine Features</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#FBFBFC] tracking-tight">Everything You Need for High-Converting Outreach</h2>
+          <p className="text-sm sm:text-base text-[#A0A0A0] mt-3 max-w-xl mx-auto">
+            Outly automates the manual, repetitive grind of cold email outreach from list extraction to reply detection.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -305,9 +322,9 @@ export default function LandingPage() {
             <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/15 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
               <FileText className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Smart PDF Parsing</h3>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Smart PDF Contact Parsing</h3>
             <p className="text-sm text-[#A0A0A0] leading-relaxed">
-              Upload PDF documents, rosters, or resume bundles and extract clean contact objects with names, emails, roles, and companies instantly.
+              Upload multi-page PDFs, lead rosters, or applicant bundles. Outly extracts clean structured lead profiles (Name, Email, Role, Company) in under 2 seconds.
             </p>
           </div>
 
@@ -317,7 +334,7 @@ export default function LandingPage() {
             </div>
             <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Personalized Variable Templates</h3>
             <p className="text-sm text-[#A0A0A0] leading-relaxed">
-              Define reusable email templates with custom tag variables like <code className="text-white">{`{{name}}`}</code> and <code className="text-white">{`{{company}}`}</code> for authentic multi-touch messaging.
+              Define reusable email templates with custom tag variables like <code className="text-white bg-white/10 px-1 py-0.5 rounded">{`{{name}}`}</code> and <code className="text-white bg-white/10 px-1 py-0.5 rounded">{`{{company}}`}</code> for hyper-personalized messaging.
             </p>
           </div>
 
@@ -327,7 +344,165 @@ export default function LandingPage() {
             </div>
             <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Automated Reply Cancellation</h3>
             <p className="text-sm text-[#A0A0A0] leading-relaxed">
-              Never annoy leads who have already replied. Outly constantly monitors responses and auto-cancels scheduled follow-up steps.
+              Never annoy leads who have already replied. Outly constantly monitors responses and auto-cancels scheduled follow-up steps immediately.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. HOW IT WORKS SECTION (#workflow) */}
+      <section id="workflow" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-white/10 scroll-mt-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#A0A0A0] mb-4">
+            <Workflow className="w-3.5 h-3.5 text-white" />
+            <span>Workflow & Engine Pipeline</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#FBFBFC] tracking-tight">How Outly Works in 4 Simple Steps</h2>
+          <p className="text-sm sm:text-base text-[#A0A0A0] mt-3 max-w-xl mx-auto">
+            From raw PDF documents to booked meetings, here is how Outly automates your end-to-end outreach pipeline.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="bg-[#0E0E0E] border border-white/10 rounded-2xl p-6 relative group hover:border-white/20 transition-all">
+            <div className="w-10 h-10 rounded-full bg-white text-black font-bold text-sm flex items-center justify-center mb-4">01</div>
+            <h3 className="text-base font-bold text-[#FBFBFC] mb-2">Upload Lead PDFs</h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Drag and drop PDF lead sheets, conference attendee lists, or resumes into Outly's AI parser.
+            </p>
+          </div>
+
+          <div className="bg-[#0E0E0E] border border-white/10 rounded-2xl p-6 relative group hover:border-white/20 transition-all">
+            <div className="w-10 h-10 rounded-full bg-white text-black font-bold text-sm flex items-center justify-center mb-4">02</div>
+            <h3 className="text-base font-bold text-[#FBFBFC] mb-2">Draft Campaign Sequence</h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Create multi-step follow-up schedules (Day 0, Day 3, Day 7) enriched with dynamic template variables.
+            </p>
+          </div>
+
+          <div className="bg-[#0E0E0E] border border-white/10 rounded-2xl p-6 relative group hover:border-white/20 transition-all">
+            <div className="w-10 h-10 rounded-full bg-white text-black font-bold text-sm flex items-center justify-center mb-4">03</div>
+            <h3 className="text-base font-bold text-[#FBFBFC] mb-2">Connect Gmail & Send</h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Authorize via official Gmail OAuth 2.0. Emails dispatch natively from your inbox with high deliverability.
+            </p>
+          </div>
+
+          <div className="bg-[#0E0E0E] border border-white/10 rounded-2xl p-6 relative group hover:border-white/20 transition-all">
+            <div className="w-10 h-10 rounded-full bg-white text-black font-bold text-sm flex items-center justify-center mb-4">04</div>
+            <h3 className="text-base font-bold text-[#FBFBFC] mb-2">Auto-Stop on Reply</h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Outly monitors incoming replies in real-time and auto-cancels scheduled follow-ups the moment a lead responds.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. SECURITY SECTION (#security) */}
+      <section id="security" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-white/10 scroll-mt-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#A0A0A0] mb-4">
+            <ShieldCheck className="w-3.5 h-3.5 text-white" />
+            <span>Enterprise Security</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#FBFBFC] tracking-tight">Built for Uncompromised Privacy & Safety</h2>
+          <p className="text-sm sm:text-base text-[#A0A0A0] mt-3 max-w-xl mx-auto">
+            Your credentials and lead data are protected by industry-standard encryption protocols and official Google Cloud OAuth safeguards.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
+              <KeyRound className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#FBFBFC] mb-1">Official Gmail OAuth 2.0 Connection</h3>
+              <p className="text-xs text-[#A0A0A0] leading-relaxed">
+                Outly <strong className="text-white">never</strong> asks for or stores raw email passwords. Authentication is handled directly via Google Cloud OAuth token handshake.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
+              <Lock className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#FBFBFC] mb-1">Encrypted OAuth Token Vault</h3>
+              <p className="text-xs text-[#A0A0A0] leading-relaxed">
+                Tokens are stored using AES-256 server-side encryption. Refresh tokens are scoped strictly to sending outreach and checking inbox replies.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
+              <Database className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#FBFBFC] mb-1">Private Lead Data Isolation</h3>
+              <p className="text-xs text-[#A0A0A0] leading-relaxed">
+                All extracted contacts, campaign templates, and analytics are isolated per account with strict database access controls.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#FBFBFC] mb-1">Google Rate Limit & Anti-Spam Compliance</h3>
+              <p className="text-xs text-[#A0A0A0] leading-relaxed">
+                Automated campaign scheduling enforces sending delays between messages to maintain high domain reputation and prevent spam flagging.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ANALYTICS SECTION (#analytics) */}
+      <section id="analytics" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 border-t border-white/10 scroll-mt-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#A0A0A0] mb-4">
+            <BarChart3 className="w-3.5 h-3.5 text-white" />
+            <span>Campaign Analytics & Insights</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#FBFBFC] tracking-tight">Real-Time Tracking & Response Metrics</h2>
+          <p className="text-sm sm:text-base text-[#A0A0A0] mt-3 max-w-xl mx-auto">
+            Track opens, clicks, delivery states, and reply rates live with transparent campaign metrics.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <Eye className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Live Open Tracking</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Embedded 1x1 transparent tracking pixels log the exact timestamp and device whenever a lead views your email.
+            </p>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <MousePointerClick className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Click-Through Analytics</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Track link clicks inside your emails to identify high-intent leads interested in your offering or portfolio.
+            </p>
+          </div>
+
+          <div className="bg-[#1A1B1A] border border-white/10 rounded-2xl p-6 hover:bg-[#262626] transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#FBFBFC] mb-2">Conversion Funnel Stats</h3>
+            <p className="text-sm text-[#A0A0A0] leading-relaxed">
+              Visualize your entire outreach pipeline with real-time graphs for total sent, open rate %, click rate %, and reply conversion %.
             </p>
           </div>
         </div>
@@ -343,9 +518,12 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center gap-6 text-[#A0A0A0]">
+          <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="#workflow" className="hover:text-white transition-colors">How It Works</a>
+          <a href="#security" className="hover:text-white transition-colors">Security</a>
+          <a href="#analytics" className="hover:text-white transition-colors">Analytics</a>
           <Link to="/signin" className="hover:text-white transition-colors">Sign In</Link>
-          <button onClick={handleLaunchDashboard} className="hover:text-white transition-colors">Live Dashboard</button>
-          <a href="#features" className="hover:text-white transition-colors">Documentation</a>
+          <button onClick={handleLaunchDashboard} className="hover:text-white transition-colors">Dashboard</button>
         </div>
       </footer>
     </div>

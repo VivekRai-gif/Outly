@@ -30,6 +30,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--bg);
     color: var(--text-primary);

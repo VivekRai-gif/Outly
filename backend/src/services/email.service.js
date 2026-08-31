@@ -10,18 +10,32 @@ export function createMimeMessage({ to, from, subject, body }) {
   
   let formattedBody = body || '';
   if (!formattedBody.includes('<html') && !formattedBody.includes('<p') && !formattedBody.includes('<div') && !formattedBody.includes('<br')) {
-    formattedBody = formattedBody.replace(/\n/g, '<br/>');
+    formattedBody = formattedBody.replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>');
   }
+
+  const htmlDocument = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #1f2937; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  ${formattedBody}
+</body>
+</html>`;
 
   const headers = [
     `To: ${to}`,
     from ? `From: ${from}` : null,
     `Subject: ${utf8Subject}`,
-    'Content-Type: text/html; charset=utf-8',
     'MIME-Version: 1.0',
+    'Content-Type: text/html; charset=utf-8',
+    'Content-Transfer-Encoding: 8bit',
   ].filter(Boolean);
 
-  const message = headers.join('\r\n') + '\r\n\r\n' + formattedBody;
+  const message = headers.join('\r\n') + '\r\n\r\n' + htmlDocument;
 
   return Buffer.from(message)
     .toString('base64')

@@ -8,9 +8,10 @@ import { personalizeEmail } from '../utils/personalize.js';
  */
 export const sendTestEmail = async (req, res, next) => {
   try {
-    const { recipientEmail, subject, body, contact } = req.body;
+    const { recipientEmail, to, recipient, subject, body, contact } = req.body;
+    const targetEmail = recipientEmail || to || recipient;
 
-    if (!recipientEmail || !recipientEmail.includes('@')) {
+    if (!targetEmail || typeof targetEmail !== 'string' || !targetEmail.includes('@')) {
       return res.status(400).json({
         success: false,
         message: 'A valid recipient email address is required for sending a test email.',
@@ -19,7 +20,7 @@ export const sendTestEmail = async (req, res, next) => {
 
     const testContact = contact || {
       name: 'Test Recipient',
-      email: recipientEmail,
+      email: targetEmail,
       company: 'Test Company',
       role: 'Test Role',
     };
@@ -31,14 +32,14 @@ export const sendTestEmail = async (req, res, next) => {
     );
 
     const result = await sendGmailMessage({
-      to: recipientEmail,
+      to: targetEmail,
       subject: `[TEST] ${personalized.subject}`,
       body: personalized.body,
     });
 
     res.status(200).json({
       success: true,
-      message: `Test email sent successfully to ${recipientEmail}`,
+      message: `Test email sent successfully to ${targetEmail}`,
       messageId: result.messageId,
       personalized,
     });

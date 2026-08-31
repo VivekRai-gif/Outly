@@ -110,6 +110,7 @@ export default function SettingsPage() {
 
     try {
       const res = await sendTestEmail({
+        recipientEmail: testEmailTo,
         to: testEmailTo,
         subject: testSubject,
         body: testBody,

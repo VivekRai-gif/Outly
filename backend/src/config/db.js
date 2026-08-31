@@ -4,12 +4,14 @@ import mongoose from 'mongoose';
  * Reusable MongoDB database connection module
  */
 export const connectDB = async () => {
-  try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/outly';
-    
-    // Set Mongoose options
-    mongoose.set('strictQuery', true);
+  // Disable query buffering so Mongoose queries fail fast when DB is disconnected
+  // instead of buffering for 10000ms and timing out.
+  mongoose.set('bufferCommands', false);
+  mongoose.set('strictQuery', true);
 
+  const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/outly';
+
+  try {
     const conn = await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 5000,
     });
@@ -17,7 +19,28 @@ export const connectDB = async () => {
     console.log(`[Database] MongoDB Connected: ${conn.connection.host} / ${conn.connection.name}`);
     return conn;
   } catch (error) {
-    console.error(`[Database] Connection Error: ${error.message}`);
+    console.error(`[Database Error] Failed connecting to ${mongoUri}: ${error.message}`);
+
+    // If Atlas connection failed and not in production, attempt local MongoDB fallback
+    if (mongoUri.includes('mongodb+srv://') && process.env.NODE_ENV !== 'production') {
+      const localUri = 'mongodb://127.0.0.1:27017/outly';
+      console.log(`[Database] Attempting local MongoDB fallback (${localUri})...`);
+      try {
+        const localConn = await mongoose.connect(localUri, {
+          serverSelectionTimeoutMS: 3000,
+        });
+        console.log(`[Database] Local MongoDB Connected: ${localConn.connection.host} / ${localConn.connection.name}`);
+        return localConn;
+      } catch (localErr) {
+        console.error(`[Database Error] Local MongoDB fallback also failed: ${localErr.message}`);
+      }
+    }
+
+    console.error(`[Database Action Required] Please verify:`);
+    console.error(`  1. Your current IP address is whitelisted in MongoDB Atlas Network Access (0.0.0.0/0 for all IPs).`);
+    console.error(`  2. MONGO_URI in backend/.env has the correct database username & password.`);
+    console.error(`  3. Or start a local MongoDB service on mongodb://127.0.0.1:27017/outly.`);
+
     if (process.env.NODE_ENV === 'production') {
       process.exit(1);
     }

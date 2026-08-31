@@ -154,7 +154,7 @@ export default function DashboardPage() {
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-xs font-semibold text-[#A1A1AA]">
-              <Sparkles className="w-3.5 h-3.5 text-white" />
+              <img src="/logo.png" alt="Outly Logo" className="w-4 h-4 object-contain" />
               <span>Outly Automated Outreach & Email Platform</span>
             </div>
 

@@ -43,9 +43,7 @@ export default function LandingPage() {
         <div className="glass rounded-full px-5 py-3 flex items-center justify-between shadow-2xl">
           {/* Logo & Brand */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all">
-              <Sparkles className="w-4 h-4" />
-            </div>
+            <img src="/logo.png" alt="Outly Logo" className="w-8 h-8 object-contain rounded-lg transition-transform group-hover:scale-105" />
             <div className="flex items-baseline gap-1.5">
               <span className="font-bold text-lg tracking-tight text-[#FBFBFC]">Outly</span>
               <span className="text-[10px] font-semibold uppercase tracking-widest text-[#A0A0A0] bg-white/5 px-1.5 py-0.5 rounded border border-white/10">AI</span>
@@ -338,7 +336,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 text-xs text-[#777777] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-md bg-white text-black font-bold text-xs flex items-center justify-center">O</div>
+          <img src="/logo.png" alt="Outly Logo" className="w-6 h-6 object-contain rounded-md" />
           <span className="font-semibold text-[#F5F5F5]">Outly Engine &copy; 2026</span>
           <span className="text-[#555555]">•</span>
           <span>Reach out. Follow up. Never lose a lead.</span>

@@ -71,9 +71,7 @@ export default function SignInPage() {
       {/* Top Header Link */}
       <header className="p-6 max-w-7xl mx-auto w-full flex items-center justify-between z-10">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all">
-            <Sparkles className="w-4 h-4" />
-          </div>
+          <img src="/logo.png" alt="Outly Logo" className="w-8 h-8 object-contain rounded-lg transition-transform group-hover:scale-105" />
           <span className="font-bold text-xl tracking-tight text-[#FBFBFC] font-sans">Outly</span>
         </Link>
 
@@ -89,9 +87,7 @@ export default function SignInPage() {
       <main className="flex-1 flex items-center justify-center p-4 z-10">
         <div className="w-full max-w-md bg-[#0E0E0E] border border-white/10 rounded-3xl p-8 shadow-2xl">
           <div className="text-center mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/15 text-white mx-auto flex items-center justify-center mb-3">
-              <Sparkles className="w-6 h-6" />
-            </div>
+            <img src="/logo.png" alt="Outly Logo" className="w-12 h-12 object-contain mx-auto mb-3 rounded-2xl" />
             <h1 className="text-2xl font-bold text-[#FBFBFC] tracking-tight">
               {isRegister ? 'Create Outly Account' : 'Sign in to Outly'}
             </h1>

@@ -1,4 +1,5 @@
 import Template from '../models/Template.js';
+import { isDbConnected } from '../config/db.js';
 
 export const SYSTEM_TEMPLATES = [
   // ==================== INTERNSHIP (7 Templates) ====================
@@ -160,6 +161,10 @@ export const SYSTEM_TEMPLATES = [
  */
 export async function seedSystemTemplates() {
   try {
+    if (!isDbConnected()) {
+      console.log('[Template Seed] Skipping system template seeding because MongoDB is not connected.');
+      return;
+    }
     // Delete existing system templates to re-seed streamlined list
     await Template.deleteMany({ isSystem: true });
     console.log('[Template Seed] Seeding 21 streamlined system email templates across Internship, Job Application, and Referral...');

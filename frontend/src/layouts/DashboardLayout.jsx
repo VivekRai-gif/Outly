@@ -92,9 +92,7 @@ export default function DashboardLayout() {
         {/* Brand Header */}
         <div className="h-16 px-6 flex items-center justify-between border-b border-white/10">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all">
-              <Sparkles className="w-4 h-4" />
-            </div>
+            <img src="/logo.png" alt="Outly Logo" className="w-8 h-8 object-contain rounded-lg transition-transform group-hover:scale-105" />
             <div>
               <span className="font-bold text-lg text-[#FBFBFC] tracking-tight block leading-none">Outly</span>
               <span className="text-[10px] text-[#A0A0A0] font-medium uppercase tracking-wider block mt-0.5">Outreach Engine</span>

@@ -13,6 +13,7 @@ import dashboardRoutes from './routes/dashboard.routes.js';
 import templateRoutes from './routes/template.routes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { globalRateLimiter, strictRateLimiter, sanitizeRequestParams } from './middleware/security.middleware.js';
+import { requireDbConnection } from './middleware/dbCheck.middleware.js';
 
 const app = express();
 
@@ -59,6 +60,10 @@ if (process.env.NODE_ENV === 'development') {
 
 // API Routes
 app.use('/api/health', healthRoutes);
+
+// Ensure MongoDB connection before accessing data endpoints
+app.use('/api', requireDbConnection);
+
 app.use('/api/contacts', contactRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/auth', authRoutes);

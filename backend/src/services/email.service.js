@@ -7,17 +7,21 @@ import { injectTrackingElements } from './trackingService.js';
  */
 export function createMimeMessage({ to, from, subject, body }) {
   const utf8Subject = `=?utf-8?B?${Buffer.from(subject || '').toString('base64')}?=`;
-  const messageParts = [
+  
+  let formattedBody = body || '';
+  if (!formattedBody.includes('<html') && !formattedBody.includes('<p') && !formattedBody.includes('<div') && !formattedBody.includes('<br')) {
+    formattedBody = formattedBody.replace(/\n/g, '<br/>');
+  }
+
+  const headers = [
     `To: ${to}`,
     from ? `From: ${from}` : null,
     `Subject: ${utf8Subject}`,
     'Content-Type: text/html; charset=utf-8',
     'MIME-Version: 1.0',
-    '',
-    body || '',
   ].filter(Boolean);
 
-  const message = messageParts.join('\r\n');
+  const message = headers.join('\r\n') + '\r\n\r\n' + formattedBody;
 
   return Buffer.from(message)
     .toString('base64')

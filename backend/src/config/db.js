@@ -23,42 +23,36 @@ export const connectDB = async () => {
   } catch (error) {
     console.error(`[Database Error] Failed connecting to ${mongoUri}: ${error.message}`);
 
-    // If Atlas connection failed and not in production, attempt local MongoDB fallback
-    if (process.env.NODE_ENV !== 'production') {
-      const localUri = 'mongodb://127.0.0.1:27017/outly';
-      console.log(`[Database] Attempting local MongoDB fallback (${localUri})...`);
-      try {
-        const localConn = await mongoose.connect(localUri, {
-          serverSelectionTimeoutMS: 3000,
-        });
-        console.log(`[Database] Local MongoDB Connected: ${localConn.connection.host} / ${localConn.connection.name}`);
-        return localConn;
-      } catch (localErr) {
-        console.error(`[Database Error] Local MongoDB fallback also failed: ${localErr.message}`);
-      }
+    // Attempt local MongoDB fallback
+    const localUri = 'mongodb://127.0.0.1:27017/outly';
+    console.log(`[Database] Attempting local MongoDB fallback (${localUri})...`);
+    try {
+      const localConn = await mongoose.connect(localUri, {
+        serverSelectionTimeoutMS: 3000,
+      });
+      console.log(`[Database] Local MongoDB Connected: ${localConn.connection.host} / ${localConn.connection.name}`);
+      return localConn;
+    } catch (localErr) {
+      console.error(`[Database Error] Local MongoDB fallback also failed: ${localErr.message}`);
+    }
 
-      // In-Memory Mongo Server Fallback
-      console.log('[Database] Initializing In-Memory MongoDB Server for reliable offline/dev execution...');
-      try {
-        const { MongoMemoryServer } = await import('mongodb-memory-server');
-        mongoMemoryServerInstance = await MongoMemoryServer.create();
-        const memUri = mongoMemoryServerInstance.getUri();
-        const memConn = await mongoose.connect(memUri);
-        console.log(`[Database] In-Memory MongoDB Connected: ${memConn.connection.host} / ${memConn.connection.name}`);
-        return memConn;
-      } catch (memErr) {
-        console.error(`[Database Error] In-Memory MongoDB fallback failed: ${memErr.message}`);
-      }
+    // In-Memory Mongo Server Fallback (Runs on Render/Cloud if Atlas/Local Mongo unavailable)
+    console.log('[Database] Initializing In-Memory MongoDB Server fallback...');
+    try {
+      const { MongoMemoryServer } = await import('mongodb-memory-server');
+      mongoMemoryServerInstance = await MongoMemoryServer.create();
+      const memUri = mongoMemoryServerInstance.getUri();
+      const memConn = await mongoose.connect(memUri);
+      console.log(`[Database] In-Memory MongoDB Connected: ${memConn.connection.host} / ${memConn.connection.name}`);
+      return memConn;
+    } catch (memErr) {
+      console.error(`[Database Error] In-Memory MongoDB fallback failed: ${memErr.message}`);
     }
 
     console.error(`[Database Action Required] Please verify:`);
     console.error(`  1. Your current IP address is whitelisted in MongoDB Atlas Network Access (0.0.0.0/0 for all IPs).`);
-    console.error(`  2. MONGO_URI in backend/.env has the correct database username & password.`);
-    console.error(`  3. Or start a local MongoDB service on mongodb://127.0.0.1:27017/outly.`);
+    console.error(`  2. Set MONGO_URI in Render Dashboard Environment variables.`);
 
-    if (process.env.NODE_ENV === 'production') {
-      process.exit(1);
-    }
     return null;
   }
 };

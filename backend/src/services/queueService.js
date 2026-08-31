@@ -18,6 +18,12 @@ export function getFollowUpQueue() {
     try {
       const connection = getRedisConnectionOptions();
       followUpQueue = new Queue(QUEUE_NAME, { connection });
+      followUpQueue.on('error', (err) => {
+        if (isRedisAvailable) {
+          console.warn('[Queue Service Warning] Redis connection error:', err.message, '- Switching to in-memory timer fallback');
+          isRedisAvailable = false;
+        }
+      });
     } catch (err) {
       console.warn('[Queue Service Warning] BullMQ Queue initialization failed:', err.message);
       isRedisAvailable = false;
@@ -165,6 +171,13 @@ export function startFollowUpWorker(processorFn) {
 
     followUpWorker.on('failed', (job, err) => {
       console.error(`[BullMQ Worker] Job ${job ? job.id : 'unknown'} failed:`, err.message);
+    });
+
+    followUpWorker.on('error', (err) => {
+      if (isRedisAvailable) {
+        console.warn('[BullMQ Worker Warning] Worker Redis connection error:', err.message);
+        isRedisAvailable = false;
+      }
     });
 
     console.log('[BullMQ Worker] Follow-up worker started successfully');

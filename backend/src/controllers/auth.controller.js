@@ -240,7 +240,7 @@ export const handleGoogleCallback = async (req, res, next) => {
  */
 export const getAuthStatus = async (req, res, next) => {
   try {
-    const status = getGoogleAuthStatus();
+    const status = await getGoogleAuthStatus();
     res.status(200).json({
       success: true,
       ...status,

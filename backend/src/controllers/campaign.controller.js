@@ -139,7 +139,7 @@ export const sendCampaign = async (req, res, next) => {
       });
     }
 
-    const authStatus = getGoogleAuthStatus();
+    const authStatus = await getGoogleAuthStatus();
     if (!authStatus.connected) {
       return res.status(400).json({
         success: false,

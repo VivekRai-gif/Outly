@@ -27,7 +27,7 @@ export function getHeaderValue(headers = [], headerName = '') {
  * Scan connected Gmail inbox for recipient replies
  */
 export async function checkForReplies() {
-  const authData = loadStoredAuthData();
+  const authData = await loadStoredAuthData();
   if (!authData || !authData.tokens || !authData.tokens.access_token) {
     console.warn('[Reply Detection] Gmail account not connected. Skipping reply scan.');
     return { success: false, reason: 'Gmail account not connected', repliesDetected: 0 };

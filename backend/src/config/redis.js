@@ -3,14 +3,22 @@ import Redis from 'ioredis';
 /**
  * Redis connection configuration for BullMQ
  */
-export const getRedisConnectionOptions = () => ({
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: parseInt(process.env.REDIS_PORT, 10) || 6379,
-  password: process.env.REDIS_PASSWORD || undefined,
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false,
-  lazyConnect: true,
-});
+export const getRedisConnectionOptions = () => {
+  const host = process.env.REDIS_HOST || '127.0.0.1';
+  const port = parseInt(process.env.REDIS_PORT, 10) || 6379;
+  const password = process.env.REDIS_PASSWORD || undefined;
+  const isUpstash = host.includes('upstash.io') || process.env.REDIS_TLS === 'true';
+
+  return {
+    host,
+    port,
+    password,
+    ...(isUpstash ? { tls: { rejectUnauthorized: false } } : {}),
+    maxRetriesPerRequest: null,
+    enableReadyCheck: false,
+    lazyConnect: true,
+  };
+};
 
 /**
  * Helper to create a new Redis client instance

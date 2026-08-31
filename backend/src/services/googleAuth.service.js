@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import fs from 'fs';
 import path from 'path';
+import User from '../models/User.js';
 
 // Least-privilege OAuth scopes
 const SCOPES = [
@@ -10,7 +11,7 @@ const SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
-// Persistent server-side token storage file path
+// Persistent server-side token storage file path (fallback)
 const TOKEN_STORAGE_FILE = path.join(process.cwd(), 'uploads', '.auth_tokens.json');
 
 /**
@@ -25,9 +26,32 @@ export function getOAuth2Client() {
 }
 
 /**
- * Load server-side stored credentials safely
+ * Load server-side stored credentials safely from DB (or fallback disk)
  */
-export function loadStoredAuthData() {
+export async function loadStoredAuthData(userId = null) {
+  try {
+    let query = {};
+    if (userId) {
+      query = { _id: userId };
+    } else {
+      query = { gmailConnected: true };
+    }
+
+    const user = await User.findOne(query).sort({ updatedAt: -1 });
+    if (user && user.googleTokens && user.googleTokens.access_token) {
+      return {
+        tokens: user.googleTokens,
+        email: user.gmailEmail || user.email,
+        name: user.name || '',
+        picture: user.avatar || '',
+        connectedAt: user.gmailConnectedAt ? user.gmailConnectedAt.toISOString() : user.updatedAt.toISOString(),
+      };
+    }
+  } catch (err) {
+    console.warn('[OAuth DB Read Warning]:', err.message);
+  }
+
+  // Disk fallback for legacy single-instance or file-based setups
   try {
     if (fs.existsSync(TOKEN_STORAGE_FILE)) {
       const raw = fs.readFileSync(TOKEN_STORAGE_FILE, 'utf8');
@@ -40,9 +64,27 @@ export function loadStoredAuthData() {
 }
 
 /**
- * Save server-side credentials safely
+ * Save server-side credentials safely to MongoDB User & fallback disk
  */
-export function saveStoredAuthData(data) {
+export async function saveStoredAuthData(data) {
+  try {
+    if (data.email) {
+      const user = await User.findOne({ email: data.email.toLowerCase() });
+      if (user) {
+        user.googleTokens = data.tokens;
+        user.gmailConnected = true;
+        user.gmailEmail = data.email.toLowerCase();
+        user.gmailConnectedAt = new Date();
+        if (data.picture) user.avatar = data.picture;
+        await user.save();
+        console.log(`[OAuth Service] Saved Google tokens to MongoDB User record: ${user.email}`);
+      }
+    }
+  } catch (err) {
+    console.error('[OAuth DB Save Error]:', err.message);
+  }
+
+  // Disk backup
   try {
     const dir = path.dirname(TOKEN_STORAGE_FILE);
     if (!fs.existsSync(dir)) {
@@ -55,9 +97,23 @@ export function saveStoredAuthData(data) {
 }
 
 /**
- * Clear server-side credentials safely
+ * Clear server-side credentials safely from MongoDB & disk
  */
-export function clearStoredAuthData() {
+export async function clearStoredAuthData(email = null) {
+  try {
+    const query = email ? { email: email.toLowerCase() } : { gmailConnected: true };
+    await User.updateMany(query, {
+      $set: {
+        gmailConnected: false,
+        gmailEmail: null,
+        gmailConnectedAt: null,
+        googleTokens: {},
+      },
+    });
+  } catch (err) {
+    console.error('[OAuth DB Clear Error]:', err.message);
+  }
+
   try {
     if (fs.existsSync(TOKEN_STORAGE_FILE)) {
       fs.unlinkSync(TOKEN_STORAGE_FILE);
@@ -100,15 +156,15 @@ export async function handleOAuthCodeExchange(code) {
     connectedAt: new Date().toISOString(),
   };
 
-  saveStoredAuthData(authData);
+  await saveStoredAuthData(authData);
   return authData;
 }
 
 /**
  * Inspect connection status
  */
-export function getGoogleAuthStatus() {
-  const authData = loadStoredAuthData();
+export async function getGoogleAuthStatus(userId = null) {
+  const authData = await loadStoredAuthData(userId);
 
   if (authData && authData.email && authData.tokens) {
     return {
@@ -132,8 +188,8 @@ export function getGoogleAuthStatus() {
 /**
  * Revoke tokens and disconnect account
  */
-export async function disconnectGoogleAccount() {
-  const authData = loadStoredAuthData();
+export async function disconnectGoogleAccount(userId = null) {
+  const authData = await loadStoredAuthData(userId);
 
   if (authData && authData.tokens) {
     try {
@@ -147,6 +203,6 @@ export async function disconnectGoogleAccount() {
     }
   }
 
-  clearStoredAuthData();
+  await clearStoredAuthData(authData ? authData.email : null);
   return { success: true, message: 'Disconnected Gmail account successfully' };
 }

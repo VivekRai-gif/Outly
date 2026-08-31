@@ -36,6 +36,26 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'Growth Marketer',
     },
+    gmailConnected: {
+      type: Boolean,
+      default: false,
+    },
+    gmailEmail: {
+      type: String,
+      default: null,
+    },
+    gmailConnectedAt: {
+      type: Date,
+      default: null,
+    },
+    googleTokens: {
+      access_token: String,
+      refresh_token: String,
+      scope: String,
+      token_type: String,
+      expiry_date: Number,
+      id_token: String,
+    },
   },
   {
     timestamps: true,

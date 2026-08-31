@@ -35,7 +35,7 @@ export async function sendGmailMessage({ to, subject, body, emailId }) {
   }
 
   // Load server-side stored OAuth credentials
-  const authData = loadStoredAuthData();
+  const authData = await loadStoredAuthData();
   if (!authData || !authData.tokens || !authData.tokens.access_token) {
     throw new Error('Gmail account not connected. Please connect your Gmail account in Settings before sending.');
   }

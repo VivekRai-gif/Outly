@@ -11,8 +11,11 @@ import {
   getContactActivity,
 } from '../controllers/contact.controller.js';
 import { handlePdfUpload } from '../middleware/upload.middleware.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
+
+router.use(protect);
 
 router.post('/upload', handlePdfUpload, uploadContactsPdf);
 router.post('/bulk', bulkSaveContacts);
